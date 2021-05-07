@@ -1,0 +1,99 @@
+@font-face {
+    font-family: 'League Gothic';
+    src: url('../fonts/league_gothic/static/WOFF/LeagueGothic-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Koku Gothic';
+    src: url('../fonts/koku_gothic/font_1_kokumr_1.00_rls.woff') format('woff');
+}
+
+.trends p {
+    padding-bottom: 10px;
+}
+
+.zero {
+    color: #5f5f5f;
+}
+
+.frame {
+    width: 960px;
+    height: 540px;
+    border: 1px solid black;
+    position: relative;
+    background-image: url('../img/dash.png');
+}
+
+.frame-weather {
+    position: absolute;
+    left: 576px;
+    top: 96px;
+}
+
+.title {
+    position: absolute;
+    font-family: 'Reggae One', cursive;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    left: 107px;
+    top: 36px;
+    font-size: 29px;
+}
+
+.u-month {
+    position: absolute;
+    font-family: 'Reggae One', cursive;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    left: 231px;
+    top: 219px;
+    font-size: 34px;
+}
+
+.u-week {
+    position: absolute;
+    font-family: 'Reggae One', cursive;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    left: 231px;
+    top: 345px;
+    font-size: 34px;
+}
+
+.u-day {
+    position: absolute;
+    font-family: 'Reggae One', cursive;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    left: 527px;
+    top: 345px;
+    font-size: 34px;
+}
+
+.piece-1 {
+    position: absolute;
+    font-family: 'League Gothic';
+    color: white;
+    text-align: center;
+}
+
+.piece-2 {
+    position: absolute;
+    font-family: 'Koku Gothic';
+    font-weight: bold;
+    color: white;
+    overflow: hidden;
+}
+
+.piece-3 {
+    position: absolute;
+    font-family: 'Reggae One', cursive;
+    font-weight: bold;
+    color: white;
+    overflow: hidden;
+    text-align: center;
+}

@@ -1,0 +1,15 @@
+{
+    "name": "m5paper-webservice",
+    "version": "1.0.0",
+    "description": "for M5Paper",
+    "main": "index.js",
+    "scripts": {
+        "run": "node index.js"
+    },
+    "keywords": [],
+    "author": "RAWSEQ",
+    "license": "MIT",
+    "dependencies": {
+        "puppeteer": "^9.1.1"
+    }
+}
