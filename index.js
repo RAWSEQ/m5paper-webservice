@@ -2,14 +2,14 @@
  * M5Paper WebService
  * Command > node index.js
  *  --> to Start Web Service
- * Access http://localhost:3001/screenshot.png
- *  --> to View png from /web/view.html (default)
- * Access http://localhost:3001/screenshot.png?url=http://example.com 
- *  --> to View png from url
+ * Access http://localhost:3001/screenshot.jpg
+ *  --> to View jpg from /web/view.html (default)
+ * Access http://localhost:3001/screenshot.jpg?url=http://example.com 
+ *  --> to View jpg from url
  * Access http://localhost:3001/view.html 
  *  --> to Preview /web/view.html
- * Access http://localhost:3001/screenshot.png?url=http://localhost:3001/dash/index.html
- *  --> to View png from /web/dash/view.html
+ * Access http://localhost:3001/screenshot.jpg?url=http://localhost:3001/dash/index.html
+ *  --> to View jpg from /web/dash/view.html
  */
 
 // <portnum(3001)> Setting
@@ -19,6 +19,7 @@ const fs = require('fs');
 const http = require('http');
 const path = require('path');
 const puppeteer = require('puppeteer');
+const sharp = require('sharp')
 
 const options = {
     defaultViewport: {
@@ -30,10 +31,10 @@ const options = {
     ]
 };
 
-http.createServer(function(request, response) {
+http.createServer(function (request, response) {
     const requrl = new URL('http://content' + request.url);
-    if (requrl.pathname == '/screenshot.png') {
-        (async() => {
+    if (requrl.pathname == '/screenshot.jpg') {
+        (async () => {
             const browser = await puppeteer.launch(options);
             const page = await browser.newPage();
             const shot_path = './screenshot/screenshot.' + (Math.random().toString(36).substr(2, 9)) + '.png';
@@ -42,11 +43,20 @@ http.createServer(function(request, response) {
             await page.waitForTimeout(3000);
             await page.screenshot({ path: shot_path });
             await browser.close();
-            fs.readFile(shot_path, function(error, content) {
-                response.writeHead(200, { 'Content-Type': 'image/png', 'Content-Length': Buffer.byteLength(content) });
-                response.end(content, 'utf-8');
-                fs.unlinkSync(shot_path);
-            });
+
+            sharp(shot_path)
+                .grayscale()
+                .toFile(shot_path + '.jpg', (err, info) => {
+                    if (err) {
+                        throw err
+                    }
+                    fs.readFile(shot_path + '.jpg', function (error, content) {
+                        response.writeHead(200, { 'Content-Type': 'image/jpeg', 'Content-Length': Buffer.byteLength(content) });
+                        response.end(content, 'utf-8');
+                        fs.unlinkSync(shot_path);
+                        fs.unlinkSync(shot_path + '.jpg');
+                    });
+                })
         })();
     } else {
         const filePath = './web' + request.url;
@@ -58,7 +68,7 @@ http.createServer(function(request, response) {
             '.css': 'text/css',
             '.json': 'application/json',
             '.png': 'image/png',
-            '.jpg': 'image/jpg',
+            '.jpg': 'image/jpeg',
             '.gif': 'image/gif',
             '.wav': 'audio/wav',
             '.mp4': 'video/mp4',
@@ -71,7 +81,7 @@ http.createServer(function(request, response) {
 
         const contentType = mimeTypes[extname] || 'application/octet-stream';
 
-        fs.readFile(filePath, function(error, content) {
+        fs.readFile(filePath, function (error, content) {
             if (error) {
                 if (error.code == 'ENOENT') {
                     response.writeHead(404, { 'Content-Type': 'text/html' });
